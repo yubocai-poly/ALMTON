@@ -181,7 +181,7 @@ def plot_multiple_convergence_profiles(
         zip(result_dicts, param_combinations)
     ):
         sigma_k = np.array(result_dict["sigma_history"][:-1])
-        sigma_approx = np.array(result_dict["sigma_approx_history"])  # 新增α_approx数据
+        sigma_approx = np.array(result_dict["sigma_approx_history"]) 
         f_values = np.array(result_dict["f_history"])
         iterations = np.arange(len(sigma_k))
         total_iter = result_dict["iterations"]
