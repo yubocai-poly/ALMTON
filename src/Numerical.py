@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import numpy as np
-from AdaptiveFramework import *
-from NewtonFunctions import *
-from UnregularizedThirdOrder import *
+from src.AdaptiveFramework import *
+from src.NewtonFunctions import *
+from src.UnregularizedThirdOrder import *
 from matplotlib.lines import Line2D
 import pickle
 
