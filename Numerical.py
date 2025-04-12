@@ -9,15 +9,6 @@ import pickle
 
 
 def plot_convergence_profile(result_dict, f_star, func_name, save_path=None):
-    """
-    绘制双图收敛行为分析图（含α_approx曲线）
-
-    参数：
-    - result_dict: 算法返回的结果字典
-    - f_star: 目标函数的全局最小值
-    - func_name: 函数名称（用于标题）
-    - save_path: 图片保存路径（可选）
-    """
     sigma_k = np.array(result_dict["sigma_history"][:-1])
     sigma_approx = np.array(result_dict["sigma_approx_history"])  
     f_values = np.array(result_dict["f_history"])
@@ -157,14 +148,17 @@ def plot_multiple_convergence_profiles(
     result_dicts, f_star, func_name, param_combinations, save_path=None
 ):
     """
-    绘制多个[l, eta]组合的双图收敛行为分析图。
-
-    参数：
-    - result_dicts: 含多个算法结果字典的列表，每个字典对应一个[l, eta]组合
-    - f_star: 目标函数的全局最小值
-    - func_name: 函数名称（用于标题）
-    - param_combinations: [l, eta]组合列表，每个元素是一个二元组(l, eta)
-    - save_path: 图片保存路径（可选）
+    Plot multiple convergence profiles for different parameter combinations.
+    
+    Parameters:
+        - result_dicts: List of dictionaries containing convergence data for each parameter combination.
+        - f_star: The optimal function value.
+        - func_name: The name of the function being optimized.
+        - param_combinations: List of tuples containing parameter combinations (l, eta).
+        - save_path: Path to save the plot. If None, the plot will be displayed.
+        
+    Returns:
+        - None
     """
     n_params = len(param_combinations)
 

@@ -11,18 +11,18 @@ def init_func(func_name):
             return (1.5 - X + X*Y)**2 + (2.25 - X + X*Y**2)**2 + (2.625 - X + X*Y**3)**2
         
         def fx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return (1.5 - x + x*y)**2 + (2.25 - x + x*y**2)**2 + (2.625 - x + x*y**3)**2
         
         def dx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return np.array([[2*x*(y**6 + y**4 - 2*y**3 - y**2 - 2*y + 3) + 5.25*y**3 + 4.5*y**2 + 3*y - 12.75],\
                              [6*x*(x*(y**5 + (2/3)*y**3 - y**2 - (1/3)*y - 1/3) + 2.625*y**2 + 1.5*y + .5)]])
         
         def d2x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2))
             ret[0,0] = 2*y**6 + 2*y**4 - 4*y**3 - 2*y**2 - 4*y + 6
@@ -31,7 +31,7 @@ def init_func(func_name):
             return ret
         
         def d3x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2,2))
             ret[0,0,1] = ret[0,1,0] = ret[1,0,0] = 12*y**5 + 8*y**3 - 12*y**2 - 4*y - 4
@@ -45,18 +45,18 @@ def init_func(func_name):
             return X**2 + 2*Y**2 - 0.3*np.cos(3*np.pi*X) - 0.4*np.cos(4*np.pi*Y)+0.7
 
         def fx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return x**2 + 2*y**2 - 0.3*np.cos(3*np.pi*x) - 0.4*np.cos(4*np.pi*y)+0.7
 
         def dx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return np.array([[2*x+0.9*np.pi*np.sin(3*np.pi*x)],\
                              [4*y+1.6*np.pi*np.sin(4*np.pi*y)]])
 
         def d2x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2))
             ret[0,0] = 2+2.7*np.pi**2*np.cos(3*np.pi*x)
@@ -65,7 +65,7 @@ def init_func(func_name):
             return ret
 
         def d3x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2,2))
             ret[0,0,0] = -8.1*np.pi**3*np.sin(3*np.pi*x)
@@ -80,18 +80,18 @@ def init_func(func_name):
             return (1 + (X+Y+1)**2 *(19 - 4*X + 3*X**2 - 14*Y +6*X*Y +3*Y**2))*(30 + (2*X-3*Y)**2 * (18 - 32*X + 12*X**2 + 48*Y -36*X*Y + 27*Y**2))
 
         def fx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return (1 + (x + y + 1)**2*(19 - 14*x + 3*x**2 - 14*y + 6*x*y + 3*y**2))*(30 + (2*x - 3*y)**2*(18 - 32*x + 12*x**2 + 48*y - 36*x*y + 27*y**2))
 
         def dx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return np.array([[24* (8* x**3 - 4* x**2* (9* y + 4) + 6* x* (9* y**2 + 8* y + 1) - 9* y* (3* y**2 + 4* y + 1))* ((3* x**2 + 2* x* (3* y - 7) + 3* y**2 - 14* y + 19)* (x + y + 1)**2 + 1) + 12* (x**3 + x**2* (3* y - 2) + x* (3* y**2 - 4* y - 1) + y**3 - 2* y**2 - y + 2)* ((12* x**2 - 4* x* (9* y + 8) + 3* (9* y**2 + 16* y + 6))* (2* x - 3* y)**2 + 30)],\
                              [12* (x**3 + x**2* (3* y - 2) + x* (3* y**2 - 4* y - 1) + y**3 - 2* y**2 - y + 2)* ((12* x**2 - 4* x* (9* y + 8) + 3* (9* y**2 + 16* y + 6))* (2* x - 3* y)**2 + 30) - 36* (8* x**3 - 4* x**2* (9* y + 4) + 6* x* (9* y**2 + 8* y + 1) - 9* y* (3* y**2 + 4* y + 1))* ((3* x**2 + 2* x* (3* y - 7) + 3* y**2 - 14* y + 19)* (x + y + 1)**2 + 1)]])
 
         def d2x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2))
             ret[0,0] = 12* (672* x**6 - 336* x**5* (3* y + 8) - 20* x**4* (81* y**2 - 168* y - 119) + 40* x**3* (51* y**3 + 108* y**2 - 7* y + 56) + 3* x**2* (435* y**4 - 1360* y**3 - 1790* y**2 - 2560* y - 818) - 2* x* (459* y**5 + 870* y**4 - 310* y**3 - 2460* y**2 - 1446* y + 268) - 3* (81* y**6 - 204* y**5 - 485* y**4 - 280* y**3 - 432* y**2 - 408* y - 70))
@@ -100,7 +100,7 @@ def init_func(func_name):
             return ret
 
         def d3x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2,2))
             ret[0,0,0] = 24* (2016* x**5 - 840* x**4* (3* y + 8) - 40* x**3* (81* y**2 - 168* y - 119) + 60* x**2* (51* y**3 + 108* y**2 - 7* y + 56) + 3* x* (435* y**4 - 1360* y**3 - 1790* y**2 - 2560* y - 818) - 459* y**5 - 870* y**4 + 310* y**3 + 2460* y**2 + 1446* y - 268)
@@ -115,18 +115,18 @@ def init_func(func_name):
             return (X**2 + Y - 11)**2 + (X + Y**2 - 7)**2 + .001
 
         def fx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return (x**2 + y - 11)**2 + (x + y**2 - 7)**2
 
         def dx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return np.array([[4* x**3 + 4* x* y - 42* x + 2* y**2 - 14],\
                              [2* x**2 + 4* x* y + 4* y**3 - 26* y - 22]])
 
         def d2x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2))
             ret[0,0] = 12* x**2 + 4* y - 42
@@ -135,7 +135,7 @@ def init_func(func_name):
             return ret
 
         def d3x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2,2))
             ret[0,0,0] = 24*x
@@ -150,18 +150,18 @@ def init_func(func_name):
             return np.sin(X + Y) + (X - Y)**2 - 1.5*X + 2.5*Y + 3
 
         def fx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return math.sin(x + y) + (x - y)**2 - 1.5*x + 2.5*y + 1
 
         def dx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return np.array([[math.cos(x + y) + 2*(x - y) - 1.5],\
                              [math.cos(x + y) -2*(x - y) + 2.5]])
 
         def d2x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2))
             ret[0,0] = - math.sin(x + y) + 2
@@ -170,7 +170,7 @@ def init_func(func_name):
             return ret
 
         def d3x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2,2))
             ret[0,0,0] = - math.cos(x + y)
@@ -185,18 +185,18 @@ def init_func(func_name):
             return 0.5*X**4 - 8* X**2 + 2.5*X + 0.5* Y**4 - 8* Y**2 + 2.5* Y + 80
 
         def fx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return 0.5*x**4 - 8* x**2 + 2.5*x + 0.5* y**4 - 8* y**2 + 2.5* y
 
         def dx(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             return np.array([[2*x**3 - 16* x + 2.5],\
                              [2*y**3 - 16* y + 2.5]])
 
         def d2x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2))
             ret[0,0] = 6* x**2 - 16
@@ -205,7 +205,7 @@ def init_func(func_name):
             return ret
 
         def d3x(X):
-            x = X[0] if len(X.shape)==1 else X[0,0]  # 兼容一维/二维输入
+            x = X[0] if len(X.shape)==1 else X[0,0] 
             y = X[1] if len(X.shape)==1 else X[1,0]
             ret = np.zeros((2,2,2))
             ret[0,0,0] = 12*x
