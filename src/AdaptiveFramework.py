@@ -3,7 +3,7 @@ import cvxpy as cvx
 import numpy.linalg as LA
 
 
-def ar3_run(fx, dx, d2x, d3x, x0, max_iterations, tol, param_list):
+def almton(fx, dx, d2x, d3x, x0, max_iterations, tol, param_list):
     """
     Adaptive Unregularized Third-Order Newton's Method with Levenberg-Marquardt Regularization.
 
@@ -64,8 +64,10 @@ def ar3_run(fx, dx, d2x, d3x, x0, max_iterations, tol, param_list):
         sigma_k = sigma_history[k]
         s_k, has_local_min = compute_step(x_k, sigma_k, dx, d2x, d3x, n)
         sigma_approx = alpha_approx(dx(x_k), d2x(x_k), d3x(x_k))
-        s_k_approx, has_local_min_approx = compute_step(x_k, sigma_approx, dx, d2x, d3x, n)
-        print('='*100)
+        s_k_approx, has_local_min_approx = compute_step(
+            x_k, sigma_approx, dx, d2x, d3x, n
+        )
+        print("=" * 100)
         print(f"Iteration {k}:")
         print(f"  sigma LM: {sigma_approx[0][0]}")
         print(f"  s_k LM: {s_k_approx.flatten()}")
@@ -104,12 +106,12 @@ def ar3_run(fx, dx, d2x, d3x, x0, max_iterations, tol, param_list):
                 x_k = bar_x  # Accept the trial point
                 success = True
         else:
-            success = 'pre-rejected'  # No step taken
+            success = "pre-rejected"  # No step taken
         # If s_k = 0 or rho_k < eta, x_k remains unchanged
 
         # Compute function value once
         f_val = fx(x_k)
-        
+
         s_history.append(s_k.copy())
         success_history.append(success)
         x_history.append(x_k.copy())
@@ -134,7 +136,7 @@ def ar3_run(fx, dx, d2x, d3x, x0, max_iterations, tol, param_list):
                 print(f"  New sigma_k: {sigma_k}")
             else:
                 sigma_k = gamma * sigma_k  # Increase sigma_k
-                
+
         # Append to history lists
         sigma_history.append(sigma_k)
 
@@ -142,21 +144,21 @@ def ar3_run(fx, dx, d2x, d3x, x0, max_iterations, tol, param_list):
 
     if k >= max_iterations:
         print(f"Maximum iterations {max_iterations} reached without convergence")
-        
+
     # delete all the variables to avoid memory leaks
     del n, sigma_k
 
     return {
-        'x_final': x_k,
-        'iterations': k,
-        'x_history': x_history,
-        's_history': s_history,
-        'sigma_history': sigma_history,
-        'f_history': f_history,
-        'success_history': success_history,
-        'grad_norm_history': grad_norm_history,
-        'sigma_approx_history': sigma_approx_history,
-        'converged': k < max_iterations,
+        "x_final": x_k,
+        "iterations": k,
+        "x_history": x_history,
+        "s_history": s_history,
+        "sigma_history": sigma_history,
+        "f_history": f_history,
+        "success_history": success_history,
+        "grad_norm_history": grad_norm_history,
+        "sigma_approx_history": sigma_approx_history,
+        "converged": k < max_iterations,
     }
 
 
@@ -302,17 +304,18 @@ def compute_phi(fx, dx, d2x, d3x, x_k, s_k):
     phi = f_xk + first + second + third_term
     return float(phi)
 
+
 def alpha_approx(Dx, D2x, D3x):
-    
+
     n_dx = LA.norm(Dx)
     n = len(Dx)
-    ns_d3x = np.array([LA.norm(D3x[i,:,:]) for i in range(n)]).reshape((n,1))
-    n_d3x = LA.norm(ns_d3x,2)
-    
+    ns_d3x = np.array([LA.norm(D3x[i, :, :]) for i in range(n)]).reshape((n, 1))
+    n_d3x = LA.norm(ns_d3x, 2)
+
     e_val, e_vec = LA.eigh(D2x)
     idx = np.argsort(e_val)
     e_val = e_val[idx]
-    e_vec = e_vec[:,idx]
-    e_min = np.min(e_val[0],0)
-    
-    return np.sqrt(1.5*(n_dx*n_d3x + ns_d3x.T@np.abs(Dx))) - e_min
+    e_vec = e_vec[:, idx]
+    e_min = np.min(e_val[0], 0)
+
+    return np.sqrt(1.5 * (n_dx * n_d3x + ns_d3x.T @ np.abs(Dx))) - e_min

@@ -6,11 +6,13 @@ from src.NewtonFunctions import *
 from src.UnregularizedThirdOrder import *
 from matplotlib.lines import Line2D
 import pickle
+import pandas as pd
+import os
 
 
 def plot_convergence_profile(result_dict, f_star, func_name, save_path=None):
     sigma_k = np.array(result_dict["sigma_history"][:-1])
-    sigma_approx = np.array(result_dict["sigma_approx_history"])  
+    sigma_approx = np.array(result_dict["sigma_approx_history"])
     f_values = np.array(result_dict["f_history"])
     iterations = np.arange(len(sigma_k))
     total_iter = result_dict["iterations"]
@@ -64,7 +66,7 @@ def plot_convergence_profile(result_dict, f_star, func_name, save_path=None):
 
     ax1.set_ylabel(r"$\sigma_k$", fontsize=11)
     ax1.grid(True, linestyle="--", alpha=0.4)
-    # ax1.set_yscale('log')  
+    # ax1.set_yscale('log')
 
     ax2.set_xlabel("Iteration (k)", fontsize=11)
     ax2.set_ylabel(r"$f(x_k) - f^*$", fontsize=11)
@@ -149,14 +151,14 @@ def plot_multiple_convergence_profiles(
 ):
     """
     Plot multiple convergence profiles for different parameter combinations.
-    
+
     Parameters:
         - result_dicts: List of dictionaries containing convergence data for each parameter combination.
         - f_star: The optimal function value.
         - func_name: The name of the function being optimized.
         - param_combinations: List of tuples containing parameter combinations (l, eta).
         - save_path: Path to save the plot. If None, the plot will be displayed.
-        
+
     Returns:
         - None
     """
@@ -175,7 +177,7 @@ def plot_multiple_convergence_profiles(
         zip(result_dicts, param_combinations)
     ):
         sigma_k = np.array(result_dict["sigma_history"][:-1])
-        sigma_approx = np.array(result_dict["sigma_approx_history"]) 
+        sigma_approx = np.array(result_dict["sigma_approx_history"])
         f_values = np.array(result_dict["f_history"])
         iterations = np.arange(len(sigma_k))
         total_iter = result_dict["iterations"]
@@ -336,7 +338,7 @@ def newton_fractal_dataset(func_name, max_iterations, tol, num_points, save_path
             _, conv_unreg = unregularized_third_newton_run(
                 fx, dx, d2x, d3x, x0, max_iterations, tol
             )
-            conv_ar3 = ar3_run(
+            conv_ar3 = almton(
                 fx, dx, d2x, d3x, x0, max_iterations, tol, [0.1, 0.1, 0.01, 3]
             )["converged"]
 
@@ -413,3 +415,82 @@ def newton_fractal_plot(func_name, num_points, dataset_path=None, save_path=None
         plt.show()
 
     return fractal_data
+
+
+def test_comparison_optimizers(
+    func_name,
+    start_points,
+    max_iterations=1000,
+    tol=1e-6,
+    param_list=None,
+    learning_rates_list=None,
+    save_path=None,
+):
+    [fX, fx, dx, d2x, d3x] = init_func(func_name)
+    results = []
+
+    for x0 in start_points:
+        x0 = np.array(x0).reshape(-1, 1)
+        row = {"Start Point": str(x0.flatten())}
+
+        # — Test for ALMTON -
+        try:
+            ar3_result = almton(fx, dx, d2x, d3x, x0, max_iterations, tol, param_list)
+            iters = ar3_result["iterations"]
+            if ar3_result["converged"]:
+                row["ALMTON"] = iters
+            else:
+                row["ALMTON"] = "≥1000" if iters >= max_iterations else "N/A"
+        except Exception as e:
+            row["ALMTON"] = f"Error: {e}"
+
+        # — Test for Unregularized Third Order Method —
+        try:
+            x_final, converged, iters = unregularized_third_newton_run(
+                fx, dx, d2x, d3x, x0, max_iterations, tol
+            )
+            if converged:
+                row["Unreg Third"] = iters
+            else:
+                row["Unreg Third"] = "≥1000" if iters >= max_iterations else "N/A"
+        except Exception as e:
+            row["Unreg Third"] = f"Error: {e}"
+
+        # — Test for Newton's Method —
+        try:
+            x_final, converged, iters = newton_run(
+                fx, dx, d2x, d3x, x0, max_iterations, tol
+            )
+            if converged:
+                row["Newton"] = iters
+            else:
+                row["Newton"] = "≥1000" if iters >= max_iterations else "N/A"
+        except Exception as e:
+            row["Newton"] = f"Error: {e}"
+
+        # — Test for Gradient Descent —
+        alphas = learning_rates_list or [0.05, 0.1, 0.015, 0.2]
+        for alpha in alphas:
+            key = f"GD (α={alpha})"
+            try:
+                x_final, converged, iters = gradient_descent(
+                    fx, dx, x0, alpha, max_iterations, tol
+                )
+                if converged:
+                    row[key] = iters
+                else:
+                    row[key] = "≥1000" if iters >= max_iterations else "N/A"
+            except Exception as e:
+                row[key] = f"Error: {e}"
+
+        results.append(row)
+
+    df = pd.DataFrame(results)
+
+    if save_path:
+        os.makedirs(save_path, exist_ok=True)
+        file_path = os.path.join(save_path, f"{func_name}.xlsx")
+        df.to_excel(file_path, index=False)
+        print(f"Results saved to {file_path}")
+
+    return df

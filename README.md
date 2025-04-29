@@ -1,3 +1,3 @@
-# ARUTON
+# ALMTON
 
-Adaptive Regularized-Unregularized Third-Order Newton’s Method
+This repository contains the source code accompanying the paper “Adaptive Levenberg–Marquardt Third-Order Newton’s Method.”
