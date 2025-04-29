@@ -327,7 +327,7 @@ def newton_fractal_dataset(func_name, max_iterations, tol, num_points, save_path
     fractal_data = {
         # "Newton": np.zeros_like(X),
         "Unregularized": np.zeros_like(X),
-        "AURTON": np.zeros_like(X),
+        "ALMTON": np.zeros_like(X),
     }
 
     for i in range(x_points):
@@ -344,7 +344,7 @@ def newton_fractal_dataset(func_name, max_iterations, tol, num_points, save_path
 
             # fractal_data["Newton"][i, j] = conv_newton
             fractal_data["Unregularized"][i, j] = conv_unreg
-            fractal_data["AURTON"][i, j] = conv_ar3
+            fractal_data["ALMTON"][i, j] = conv_ar3
 
     # save the fractal data to a pickle file
     with open(save_path, "wb") as f:
@@ -387,7 +387,8 @@ def newton_fractal_plot(func_name, num_points, dataset_path=None, save_path=None
 
         ax.scatter(x_converged, y_converged, c="green", s=15, marker="o")
         ax.scatter(x_not_converged, y_not_converged, c="red", s=15, marker="o")
-
+        if method == "AURTON":
+            method = "ALMTON"
         ax.set_title(method)
         ax.set_xlim(XMIN - 2.2, XMAX + 2.2)
         ax.set_ylim(YMIN - 2.2, YMAX + 2.2)
