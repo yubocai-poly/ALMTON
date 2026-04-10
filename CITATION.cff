@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the accompanying paper as follows."
+title: "Adaptive Levenberg-Marquardt Third-Order Newton Method (ALMTON)"
+authors:
+  - family-names: "Cai"
+    given-names: "Yubo"
+  - family-names: "Zhu"
+    given-names: "Wenqi"
+  - family-names: "Cartis"
+    given-names: "Coralia"
+  - family-names: "Zardini"
+    given-names: "Gioele"
+repository-code: "https://github.com/yubocai-poly/ALMTON"
+url: "https://github.com/yubocai-poly/ALMTON"
+preferred-citation:
+  type: article
+  title: "A Globally Convergent Third-Order Newton Method via Unified Semidefinite Programming Subproblems"
+  authors:
+    - family-names: "Cai"
+      given-names: "Yubo"
+    - family-names: "Zhu"
+      given-names: "Wenqi"
+    - family-names: "Cartis"
+      given-names: "Coralia"
+    - family-names: "Zardini"
+      given-names: "Gioele"
+  journal: "arXiv"
+  year: 2026
+  identifiers:
+    - type: other
+      value: "arXiv:2603.09682"
+  url: "https://arxiv.org/abs/2603.09682"
